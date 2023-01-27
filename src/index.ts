@@ -1,10 +1,10 @@
 import app from './app';
 
-
-const port = 8080; 
-
+import { PORT } from './config/env.config';
 
 
-app.listen(port, () => {
-  console.log('started');
+
+
+app.listen(PORT, () => {
+  console.log('Server started on port '+PORT);
 })
