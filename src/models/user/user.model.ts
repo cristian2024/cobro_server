@@ -1,4 +1,6 @@
-class UserModel {
+import ModelsBase from "../models.base";
+
+class UserModel implements ModelsBase {
   id?: string;
   firstName: string;
   lastName: string;
@@ -39,6 +41,28 @@ class UserModel {
     this.username = username;
     this.birthDate = birthDate;
     this.userType = userType;
+  }
+  toMap(): {
+    [key: string]: number | string | Date;
+  } {
+    const obj: {
+      [key: string]: string | Date;
+    } = {
+      first_name: this.firstName,
+      last_name: this.lastName,
+      email: this.email,
+      username: this.username,
+      birth_date: this.birthDate,
+      user_type: this.userType,
+    };
+
+    if (this.cellphone != null) {
+      obj["cellphone"] = this.cellphone;
+    }
+    if (this.document != null) {
+      obj["document"] = this.document;
+    }
+    return obj;
   }
 }
 
