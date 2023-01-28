@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 
-function userModel(dataBase: Sequelize) {
+function userCreation(dataBase: Sequelize) {
   dataBase.define("User", {
     id: {
       type: DataTypes.UUID,
@@ -55,4 +55,4 @@ function userAssociation(dataBase: Sequelize) {
   });
 }
 
-export { userModel, userAssociation };
+export { userCreation , userAssociation };

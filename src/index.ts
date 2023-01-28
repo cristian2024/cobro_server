@@ -2,7 +2,7 @@ import app from "./app";
 
 import { PORT } from "./config/env.config";
 
-import dataBase from "./database/db.config";
+import { dataBase } from "./database/db.config";
 
 dataBase.sync({
   force: true,

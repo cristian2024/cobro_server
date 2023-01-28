@@ -18,4 +18,5 @@ const dataBase = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
 });
 
 setupAssociations(dataBase);
-export default dataBase;
+const models = dataBase.models
+export { dataBase, models as dbModels };
