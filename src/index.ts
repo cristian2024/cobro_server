@@ -1,10 +1,14 @@
-import app from './app';
+import app from "./app";
 
+import { PORT } from "./config/env.config";
 
-const port = 8080; 
+import dataBase from "./database/db.config";
 
-
-
-app.listen(port, () => {
-  console.log('started');
-})
+dataBase.authenticate().then((_) => {
+  console.log('Database connected succesfully');
+  app.listen(PORT, () => {
+    console.log("Server started on port " + PORT);
+  });
+}).catch((_)=>{
+  console.log('Server database was not connected');
+});
