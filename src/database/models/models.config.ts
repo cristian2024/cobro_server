@@ -1,10 +1,10 @@
 import { Sequelize } from "sequelize";
-import { accountAssociation, accountModel } from "./account/account.model";
-import { paymentAssociation, paymentModel } from "./payments/payments.model";
-import { productAssociation, productModel } from "./product/product.model";
-import { investorAssociation, investorModel } from "./user/investor.model";
+import { accountAssociation, accountModel } from "./account/account.db.model";
+import { paymentAssociation, paymentModel } from "./payments/payments.db.model";
+import { productAssociation, productModel } from "./product/product.db.model";
+import { investorAssociation, investorModel } from "./user/investor.db";
 
-import { userAssociation, userModel } from "./user/user.model";
+import { userAssociation, userModel } from "./user/user.db";
 
 //associations runner
 function setupAssociations(db: Sequelize) {
@@ -12,7 +12,7 @@ function setupAssociations(db: Sequelize) {
   userModel(db);
   investorModel(db);
   accountModel(db);
-  productModel(db);
+  productModel(db); 
   paymentModel(db);
 
   //associating data
