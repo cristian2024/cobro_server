@@ -2,19 +2,19 @@ import { Sequelize, DataTypes } from "sequelize";
 
 function accountModel(dataBase: Sequelize) {
   dataBase.define("Account", {
-    id_account: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
       unique: true,
-      field: "id",
+      field: "id_account",
     },
-    value_account: {
+    value: {
       type: DataTypes.DOUBLE,
       allowNull: false,
       defaultValue: 0,
-      field: "value",
+      field: "value_account",
     },
     interest: {
       type: DataTypes.DOUBLE,
@@ -35,6 +35,29 @@ function accountModel(dataBase: Sequelize) {
 }
 
 //@ts-ignore
-function accountAssociation(dataBase: Sequelize) {}
+function accountAssociation(dataBase: Sequelize) {
+  const models = dataBase.models;
+
+  //obtaining models for associations
+  const account = models.Account;
+  const product = models.Product;
+  const user = models.User;
+  const payment = models.Payment;
+
+  //associations
+  account.hasMany(payment, {
+    as: "pAccount",
+    foreignKey: "id_account",
+  });
+  account.belongsToMany(product, {
+    as: "product",
+    foreignKey: "id_product",
+    through: "AccountProduct",
+  });
+  account.belongsTo(user, {
+    as: "aUser",
+    foreignKey: "id_user",
+  });
+}
 
 export { accountModel, accountAssociation };

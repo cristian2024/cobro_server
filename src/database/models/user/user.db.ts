@@ -2,13 +2,13 @@ import { Sequelize, DataTypes } from "sequelize";
 
 function userModel(dataBase: Sequelize) {
   dataBase.define("User", {
-    id_user: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
       unique: true,
-      field: "id",
+      field: "id_user",
     },
     first_name: {
       type: DataTypes.STRING,
@@ -36,6 +36,23 @@ function userModel(dataBase: Sequelize) {
 }
 
 //@ts-ignore
-function userAssociation(dataBase: Sequelize) {}
+function userAssociation(dataBase: Sequelize) {
+  const models = dataBase.models;
+
+  //obtaining models for associations
+  const user = models.User;
+  const investor = models.InvestorInfo;
+  const account = models.Account;
+
+  //associations
+  user.hasOne(investor, {
+    as: "iUser",
+    foreignKey: "id_user",
+  });
+  user.hasMany(account, {
+    as: "aUser",
+    foreignKey: "id_user",
+  });
+}
 
 export { userModel, userAssociation };

@@ -2,22 +2,22 @@ import { Sequelize, DataTypes } from "sequelize";
 
 function productModel(dataBase: Sequelize) {
   dataBase.define("Product", {
-    id_product: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
       unique: true,
-      field: "id",
+      field: "id_product",
     },
-    name_product: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: "name",
+      field: "name_product",
     },
-    value_product: {
+    value: {
       type: DataTypes.DOUBLE,
-      field: "value",
+      field: "value_product",
       defaultValue: 0,
       allowNull: false,
     },
@@ -26,6 +26,19 @@ function productModel(dataBase: Sequelize) {
 }
 
 //@ts-ignore
-function productAssociation(dataBase: Sequelize) {}
+function productAssociation(dataBase: Sequelize) {
+  const models = dataBase.models;
+
+  //obtaining models for associations
+  const account = models.Account;
+  const product = models.Payment;
+
+  //associations
+  product.belongsToMany(account, {
+    as: "account",
+    foreignKey: "id_account",
+    through: "AccountProduct",
+  });
+}
 
 export { productModel, productAssociation };

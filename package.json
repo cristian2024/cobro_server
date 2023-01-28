@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon src/index.ts",
-    "build": "tsc & node ./build/index.js",
+    "build": "npm run tsc && node ./build/index.js",
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +17,7 @@
     "@types/nodemon": "^1.19.2",
     "@types/pg": "^8.6.6",
     "@types/sequelize": "^4.28.14",
+    "@types/websocket": "^1.0.5",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
     "tslint": "^5.12.1",
@@ -29,7 +30,8 @@
     "path": "^0.12.7",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.28.0"
+    "sequelize": "^6.28.0",
+    "websocket": "^1.0.34"
   },
   "nodemonConfig": {
     "ignore": [

@@ -9,13 +9,13 @@ import { DataTypes, Sequelize } from "sequelize";
 
 function investorModel(dataBase: Sequelize) {
   dataBase.define("InvestorInfo", {
-    id_investor: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
       unique: true,
-      field: "id",
+      field: "id_investor",
     },
     initial_investment: {
       type: DataTypes.DOUBLE,
@@ -31,6 +31,18 @@ function investorModel(dataBase: Sequelize) {
 }
 
 //@ts-ignore
-function investorAssociation(dataBase: Sequelize) {}
+function investorAssociation(dataBase: Sequelize) {
+  const models = dataBase.models;
+
+  //obtaining models for associations
+  const user = models.User;
+  const investor = models.InvestorInfo;
+
+  //associations
+  investor.belongsTo(user, {
+    as: "iUser",
+    foreignKey: "id_user",
+  });
+}
 
 export { investorModel, investorAssociation };

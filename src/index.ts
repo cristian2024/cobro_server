@@ -4,7 +4,9 @@ import { PORT } from "./config/env.config";
 
 import dataBase from "./database/db.config";
 
-dataBase.authenticate().then((_) => {
+dataBase.sync({
+  force: true,
+}).then((_) => {
   console.log('Database connected succesfully');
   app.listen(PORT, () => {
     console.log("Server started on port " + PORT);
