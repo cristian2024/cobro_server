@@ -2,7 +2,7 @@ import app from "./app";
 
 import { PORT } from "./config/env.config";
 
-import dataBase from "./database/seq.config";
+import dataBase from "./database/db.config";
 
 dataBase.authenticate().then((_) => {
   console.log('Database connected succesfully');

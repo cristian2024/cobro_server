@@ -7,6 +7,7 @@ import {
   DB_PORT,
   DB_DIALECT,
 } from "../config/env.config";
+import setupAssociations from "./models/models.config";
 
 const dataBase = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
@@ -16,4 +17,5 @@ const dataBase = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   logging: false,
 });
 
+setupAssociations(dataBase);
 export default dataBase;
