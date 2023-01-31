@@ -7,7 +7,9 @@ async function getUser_(req: Request, res: Response, next: NextFunction) {
     const user = await getUser(userId);
     res.locals.user = user;
     next();
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 }
 
 export { getUser_ as getUser };
