@@ -2,14 +2,11 @@ import express, { Router } from "express";
 import { notNull } from "../../../utils/utils";
 import { basicErrorHandler } from "./error.handler";
 import { successHandler } from "./common.responses";
+import userRouter from "../user/user.routes";
 
 const v1: Router = express.Router();
 
-v1.get("/ping", (_req, res, next) => {
-  res.locals.mssg = "pong";
-  res.locals.hasData = true;
-  next();
-});
+v1.use('/user', userRouter);
 
 // router for not implemented routes
 v1.use("***", (_req, res, next) => {
@@ -23,6 +20,7 @@ v1.use("***", (_req, res, next) => {
   }
   
 });
+
 
 v1.use(basicErrorHandler);
 v1.use(successHandler);

@@ -42,6 +42,11 @@ class UserModel implements ModelsBase {
     this.birthDate = birthDate;
     this.userType = userType;
   }
+
+  static fromMap(map: any): UserModel | undefined {
+    // return new UserModel({id=map['id'],});
+    return;
+  }
   toMap(): {
     [key: string]: number | string | Date;
   } {
