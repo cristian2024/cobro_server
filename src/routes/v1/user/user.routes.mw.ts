@@ -44,10 +44,28 @@ function updateUserRoute(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+//@ts-ignore
+function deleteUserRoute(req: Request, res: Response, next: NextFunction) {
+  try {
+    const amount = res.locals.amountDeleted;
+    res.locals.mssg = "Process of user deleting completed";
+    res.locals.data = {
+      count: amount,
+    };
+    //it says to the next route that middlewares were executre
+    res.locals.hasData = true;
+    next();
+  } catch (error) {
+    res.locals.mssg = "User couldnt be updated";
+    next(error);
+  }
+}
+
 export default {
   getUserRoute,
   createUserRoute,
   updateUserRoute,
+  deleteUserRoute,
 };
 
-export { getUserRoute, createUserRoute, updateUserRoute };
+export { getUserRoute, createUserRoute, updateUserRoute, deleteUserRoute };

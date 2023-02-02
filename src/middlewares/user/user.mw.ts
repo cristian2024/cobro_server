@@ -12,6 +12,7 @@ import {
   getUser,
   createUser,
   updateUser,
+  deleteUser,
 } from "../../services/user/user.services";
 
 //@ts-ignore
@@ -61,10 +62,22 @@ async function updateUser_(req: Request, res: Response, next: NextFunction) {
       );
     }
 
-    const user = UserModel.fromMap(userData);
-
-    const userU = await updateUser(user, idUser);
+    const userU = await updateUser(userData, idUser);
     res.locals.user = userU;
+    next();
+  } catch (error) {
+    res.locals.mssg = validateUserError(error, "User couldnt be updated");
+    next(error);
+  }
+}
+
+async function deleteUser_(req: Request, res: Response, next: NextFunction) {
+  try {
+    const idUser = req.params.id_user;
+
+    //amount of registers deleted
+    const amount = await deleteUser(idUser);
+    res.locals.amountDeleted = amount;
     next();
   } catch (error) {
     res.locals.mssg = validateUserError(error, "User couldnt be updated");
@@ -76,4 +89,5 @@ export {
   getUser_ as getUser,
   createUser_ as createUser,
   updateUser_ as updateUser,
+  deleteUser_ as deleteUser,
 };
