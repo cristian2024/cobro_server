@@ -7,12 +7,7 @@ async function createUser(user: UserModel) {
   return UserDB.create(user.toMap());
 }
 
-async function getUser(idUser: string) {
-  // return new UserModel();
-  const userData = await UserDB.findByPk(idUser);
-
-  return userData;
-}
+const getUser = async (idUser: string) => UserDB.findByPk(idUser);
 
 const deleteUser = async (idUser: string) =>
   UserDB.destroy({ where: { id: idUser } });

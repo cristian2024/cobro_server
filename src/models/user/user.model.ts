@@ -1,3 +1,4 @@
+import { notNull } from "../../utils/utils";
 import ModelsBase from "../models.base";
 
 class UserModel implements ModelsBase {
@@ -13,14 +14,14 @@ class UserModel implements ModelsBase {
 
   constructor({
     id,
-    firstName = "",
-    lastName = "",
+    firstName,
+    lastName,
     cellphone,
-    email = "",
+    email,
     document,
-    username = "",
+    username,
     birthDate = new Date(),
-    userType = "",
+    userType,
   }: {
     id?: string;
     firstName: string;
@@ -44,8 +45,35 @@ class UserModel implements ModelsBase {
   }
 
   static fromMap(map: any): UserModel | undefined {
-    // return new UserModel({id=map['id'],});
-    return;
+    const firstName = map["first_name"];
+    const lastName = map["last_name"];
+    const email = map["email"];
+    const username = map["username"];
+    if (
+      !notNull(firstName) ||
+      !notNull(lastName) ||
+      !notNull(email) ||
+      !notNull(username)
+    )
+      return undefined;
+
+    const user = new UserModel({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      username: username,
+      birthDate:
+        map["birth_date"] == null ? new Date() : new Date(map["birth_date"]),
+      userType: map["user_type"] || "client",
+      cellphone: map["cellphone"],
+      document: map["document"],
+    });
+
+    if (map["id"] != null) {
+      user.id = map["id"];
+    }
+
+    return user;
   }
   toMap(): {
     [key: string]: number | string | Date;
