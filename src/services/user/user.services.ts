@@ -12,8 +12,8 @@ const getUser = async (idUser: string) => UserDB.findByPk(idUser);
 const deleteUser = async (idUser: string) =>
   UserDB.destroy({ where: { id: idUser } });
 
-async function updateUser(user: UserModel) {
-  return UserDB.update(user, { where: { id: user.id } });
+async function updateUser(userData: any, idUser : string) {
+  return UserDB.update(userData, { where: { id: idUser } });
 }
 
 export { createUser, getUser, deleteUser, updateUser };

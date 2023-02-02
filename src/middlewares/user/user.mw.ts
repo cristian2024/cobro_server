@@ -1,9 +1,20 @@
 import { Request, Response, NextFunction } from "express";
-import { CreateUserError, GetUserError } from "../../errors/user/user.errors";
 import UserModel from "../../models/user/user.model";
-//@ts-ignore
-import { getUser, createUser } from "../../services/user/user.services";
 import { notNull } from "../../utils/utils";
+import {
+  CreateUserError,
+  GetUserError,
+  UpdateUserError,
+  validateUserError,
+} from "../../errors/user/user.errors";
+
+import {
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+} from "../../services/user/user.services";
+
 //@ts-ignore
 async function getUser_(req: Request, res: Response, next: NextFunction) {
   try {
@@ -31,21 +42,52 @@ async function createUser_(req: Request, res: Response, next: NextFunction) {
     }
 
     const user = UserModel.fromMap(userData);
-    if (typeof user == "undefined") {
-      throw new CreateUserError("User data for creation couldn't be completed");
-    }
+
     const userC = await createUser(user);
     res.locals.user = userC;
     next();
   } catch (error) {
-    if (error instanceof CreateUserError) {
-      res.locals.mssg = error.message;
-    } else {
-      res.locals.mssg = "User couldnt be created";
-    }
-
+    res.locals.mssg = validateUserError(error, "User couldnt be created");
     next(error);
   }
 }
 
-export { getUser_ as getUser, createUser_ as createUser };
+async function updateUser_(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userData = req.body.user;
+    const idUser = req.params.id_user;
+    if (!notNull(userData)) {
+      throw new UpdateUserError(
+        "You haven't provided the user data for its updating"
+      );
+    }
+
+    const userU = await updateUser(userData, idUser);
+    res.locals.user = userU;
+    next();
+  } catch (error) {
+    res.locals.mssg = validateUserError(error, "User couldnt be updated");
+    next(error);
+  }
+}
+
+async function deleteUser_(req: Request, res: Response, next: NextFunction) {
+  try {
+    const idUser = req.params.id_user;
+
+    //amount of registers deleted
+    const amount = await deleteUser(idUser);
+    res.locals.amountDeleted = amount;
+    next();
+  } catch (error) {
+    res.locals.mssg = validateUserError(error, "User couldnt be updated");
+    next(error);
+  }
+}
+
+export {
+  getUser_ as getUser,
+  createUser_ as createUser,
+  updateUser_ as updateUser,
+  deleteUser_ as deleteUser,
+};
