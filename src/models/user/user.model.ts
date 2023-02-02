@@ -1,3 +1,4 @@
+import { UserError } from "../../errors/user/user.errors";
 import { notNull } from "../../utils/utils";
 import ModelsBase from "../models.base";
 
@@ -44,7 +45,7 @@ class UserModel implements ModelsBase {
     this.userType = userType;
   }
 
-  static fromMap(map: any): UserModel | undefined {
+  static fromMap(map: any): UserModel  {
     const firstName = map["first_name"];
     const lastName = map["last_name"];
     const email = map["email"];
@@ -55,7 +56,8 @@ class UserModel implements ModelsBase {
       !notNull(email) ||
       !notNull(username)
     )
-      return undefined;
+      throw new UserError('Necessary data was not provided for user');
+      
 
     const user = new UserModel({
       firstName: firstName,
